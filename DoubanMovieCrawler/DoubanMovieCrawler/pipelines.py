@@ -11,6 +11,9 @@ from .database import col
 
 
 class DoubanmoviecrawlerPipeline:
+    """
+    数据保存到 MongoDB 中
+    """
 
     @staticmethod
     def get_movie(item):

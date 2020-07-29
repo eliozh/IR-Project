@@ -119,6 +119,9 @@ class RotateUserAgentMiddleware(UserAgentMiddleware):
 
 
 class ProxyMiddleware(object):
+    """
+    代理池
+    """
     def process_request(self, request, spider):
         # ip = random.choice(proxy_ip_list)
         # logging.info(f'***** Current Proxy: {ip} *****')
@@ -127,6 +130,9 @@ class ProxyMiddleware(object):
 
 
 class RandomDelayMiddleware(object):
+    """
+    随机抓取延迟
+    """
     def __init__(self, delay):
         self.delay = delay
 
