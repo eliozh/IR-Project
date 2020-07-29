@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Douban Movie Search</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+          integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+          integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+          crossorigin="anonymous"></script>
+  <style>
+    @media {
+      .container-fluid {
+        max-width: 60%;
+      }
+
+      .navbar {
+        margin-bottom: 10%;
+      }
+
+      .form-group {
+        margin-top: 5%;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">DouBan 搜</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+          aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Fuzzy-Search <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('precise_search') }}">Precise-Search</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="container-sm" style="width: 25%">
+    <img class="img-fluid" src="/image/Ayaka%20Hayashi.JPG" alt="logo">
+  </div>
+  <form>
+    <div class="form-group">
+      <div class="input-group mb-5">
+        <input type="text" placeholder="" class="form-control" id="query-words">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" id="query-btn">搜一下</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#query-btn').click(function () {
+            if ($('#query-words').val().trim() !== '') {
+                window.location.href = "{{ url_for('fuzzy_search') }}" + '?query_words=' + $('#query-words').val();
+            }
+        });
+    });
+</script>
+</html>

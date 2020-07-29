@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Douban Movie Search</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+          integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+          integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+          crossorigin="anonymous"></script>
+  <style>
+    @media {
+      .container-fluid.search-group {
+        max-width: 60%;
+      }
+
+      .navbar {
+        margin-bottom: 2%;
+      }
+
+      .form-group {
+        margin-top: 5%;
+      }
+
+      .post {
+        height: 100%;
+        max-width: 150px;
+      }
+
+      .container-fluid.result {
+        height: 200px;
+        width: 80%;
+        margin-bottom: 1%;
+        margin-top: 1%;
+      }
+
+      .year {
+        color: darkgrey;
+      }
+
+      .title {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">DouBan 搜</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+          aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('fuzzy_search') }}">Fuzzy-Search <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('precise_search') }}">Precise-Search</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container-fluid search-group">
+  <form>
+    <div class="form-group">
+      <div class="input-group mb-5">
+        <input type="text" placeholder="" class="form-control" id="query-words" value="{{ query_words }}">
+        <div class="input-group-append">
+          <select class="custom-select" id="select">
+            <option {% if search_type == 1 %}selected{% endif %} value="1">电影</option>
+            <option {% if search_type == 2 %}selected{% endif %}  value="2">导演</option>
+            <option {% if search_type == 3 %}selected{% endif %}  value="3">演员</option>
+          </select>
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" id="query-btn">搜一下</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% for i in results %}
+<div class="container-fluid result">
+  <div class="row" style="height: 100%">
+    <div class="col-auto" style="height: 100%">
+      <a href="{{ i['link'] }}"><img src="{{ i['cover'] }}" class="img-fluid post"
+                                     alt="post"></a>
+    </div>
+    <div class="col">
+      <div class="row">
+        <strong><a href="{{ i['link'] }}" class="title">{{ i['name'] }}</a></strong><span
+              class="year">({{ i['year'] }})</span>
+      </div>
+      <div class="row">
+        导演:
+        {% for director in i['directors'] %}
+        <a href="#">{{ director }}</a>&nbsp;&nbsp;
+        {% endfor %}
+      </div>
+      <div class="row">
+        演员:
+        {% for actor in i['actors'][:2]%}
+        <a href="#">{{ actor }}</a>&nbsp;&nbsp;
+        {% endfor %}
+      </div>
+      <div class="row">
+        简介: {{ i['summary'] | truncate(200) }}...
+      </div>
+    </div>
+    <div class="col-3">
+      评分: {{ i['score'] }}<br>
+      共{{ i['votes'] }}人评价
+    </div>
+  </div>
+</div>
+{% endfor %}
+<div class="container-fluid result">
+  <span>共 {{ page_num }} 页</span>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#query-btn').click(function () {
+            if ($('#query-words').val().trim() !== '') {
+                window.location.href = "{{ url_for('precise_search') }}" + '?query_words=' + $('#query-words').val() + '&search_type=' + $('#select').val();
+            }
+        });
+    });
+</script>
+</html>
