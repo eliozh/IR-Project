@@ -31,7 +31,7 @@ requests==2.24.0
 Scrapy==2.2.1
 service-identity==18.1.0
 six==1.15.0
-Twisted==22.1.0
+Twisted==22.2.0
 urllib3==1.25.10
 w3lib==1.22.0
 Werkzeug==1.0.1
