@@ -32,7 +32,7 @@ Scrapy==2.2.1
 service-identity==18.1.0
 six==1.15.0
 Twisted==22.1.0
-urllib3==1.25.10
+urllib3==1.26.5
 w3lib==1.22.0
 Werkzeug==1.0.1
 zope.interface==5.1.0
