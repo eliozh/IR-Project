@@ -15,7 +15,7 @@ itemadapter==0.1.0
 itsdangerous==1.1.0
 jieba==0.42.1
 Jinja2==2.11.3
-lxml==4.5.2
+lxml==4.9.1
 MarkupSafe==1.1.1
 parsel==1.6.0
 Protego==0.1.16
